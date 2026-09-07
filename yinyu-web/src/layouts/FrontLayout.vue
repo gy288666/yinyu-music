@@ -5,6 +5,7 @@ import { ElMessage } from 'element-plus'
 import { Compass, Crown, Download, Heart, History, Plus, Radio, Search, Sparkles } from 'lucide-vue-next'
 import { getMyPlaylists, userInfo } from '../data/db'
 import { useAdminStore } from '../data/adminStore'
+import { CONTACT } from '../data/infoPages'
 import { usePlayerStore } from '../stores/player'
 import { ALBUM_FALLBACK, imgFallback } from '../utils/img'
 
@@ -184,35 +185,41 @@ function playMyPlaylist(id: string) {
           <div>
             <div class="text-sm text-mist-300">关于我们</div>
             <ul class="mt-4 space-y-2.5">
-              <li v-for="l in ['关于音域', '加入我们', '媒体报道', '联系我们']" :key="l">
-                <a href="javascript:;" class="text-xs text-mist-500 hover:text-mist-300 transition-colors" @click="ElMessage.info(`「${l}」页面开发中`)">{{ l }}</a>
+              <li v-for="l in [['关于音域', 'about'], ['加入我们', 'join'], ['媒体报道', 'media'], ['联系我们', 'contact']]" :key="l[0]">
+                <router-link :to="`/info/${l[1]}`" class="text-xs text-mist-500 hover:text-mist-300 transition-colors">{{ l[0] }}</router-link>
               </li>
             </ul>
           </div>
           <div>
             <div class="text-sm text-mist-300">帮助中心</div>
             <ul class="mt-4 space-y-2.5">
-              <li v-for="l in ['常见问题', '使用指南', '意见反馈', '版权声明']" :key="l">
-                <a href="javascript:;" class="text-xs text-mist-500 hover:text-mist-300 transition-colors" @click="ElMessage.info(`「${l}」页面开发中`)">{{ l }}</a>
+              <li v-for="l in [['常见问题', 'faq'], ['使用指南', 'guide'], ['意见反馈', 'feedback'], ['版权声明', 'copyright']]" :key="l[0]">
+                <router-link :to="`/info/${l[1]}`" class="text-xs text-mist-500 hover:text-mist-300 transition-colors">{{ l[0] }}</router-link>
               </li>
             </ul>
           </div>
           <div>
             <div class="text-sm text-mist-300">服务条款</div>
             <ul class="mt-4 space-y-2.5">
-              <li v-for="l in ['用户协议', '隐私政策', '会员协议', '未成年人保护']" :key="l">
-                <a href="javascript:;" class="text-xs text-mist-500 hover:text-mist-300 transition-colors" @click="ElMessage.info(`「${l}」页面开发中`)">{{ l }}</a>
+              <li v-for="l in [['用户协议', 'user-agreement'], ['隐私政策', 'privacy'], ['会员协议', 'vip-agreement'], ['未成年人保护', 'minor-protection']]" :key="l[0]">
+                <router-link :to="`/info/${l[1]}`" class="text-xs text-mist-500 hover:text-mist-300 transition-colors">{{ l[0] }}</router-link>
               </li>
             </ul>
           </div>
           <div>
             <div class="text-sm text-mist-300">关注我们</div>
             <div class="mt-4 flex items-center gap-3">
-              <a v-for="i in 4" :key="i" href="javascript:;" class="w-8 h-8 rounded-full bg-ink-800 flex items-center justify-center text-mist-400 hover:text-gold-300 transition-colors" @click="ElMessage.info('扫码关注（演示）')">
-                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M8 12h.01M12 12h.01M16 12h.01" stroke-linecap="round" stroke-width="2.5" />
-                </svg>
+              <a
+                v-for="s in [['QQ', CONTACT.qq], ['邮箱', CONTACT.email], ['抖音', '音域YINYU'], ['微博', '@音域YINYU']]" :key="s[0]"
+                href="javascript:;" :title="`${s[0]}：${s[1]}`"
+                class="w-8 h-8 rounded-full bg-ink-800 flex items-center justify-center text-mist-400 hover:text-gold-300 transition-colors"
+                :data-test="`footer-social-${s[0]}`"
+                @click="ElMessage.info(`${s[0]}：${s[1]}`)"
+              >
+                <svg v-if="s[0] === 'QQ'" viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7v2.6c-.6.9-2 3.2-2 4.9 0 1 .4 1.5 1 1.5.7 0 1.3-.7 1.7-1.4A7 7 0 0 0 12 19a7 7 0 0 0 6.3-4.4c.4.7 1 1.4 1.7 1.4.6 0 1-.5 1-1.5 0-1.7-1.4-4-2-4.9V9a7 7 0 0 0-7-7Z"/></svg>
+                <svg v-else-if="s[0] === '邮箱'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                <svg v-else-if="s[0] === '抖音'" viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M16.6 3c.4 2.1 1.8 3.6 3.9 3.9v3c-1.5 0-2.9-.5-3.9-1.3v6.1A5.8 5.8 0 1 1 10.8 9v3.2a2.7 2.7 0 1 0 2.7 2.7V3h3.1Z"/></svg>
+                <svg v-else viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9" /><path d="M8 12h.01M12 12h.01M16 12h.01" stroke-linecap="round" stroke-width="2.5" /></svg>
               </a>
             </div>
           </div>

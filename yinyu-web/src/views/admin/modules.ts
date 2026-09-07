@@ -266,7 +266,7 @@ export const crudModules: Record<string, CrudModule> = {
     desc: '处理用户提交的反馈：回复后标记为已处理。',
     searchFields: ['user', 'content'],
     searchPlaceholder: '搜索用户 / 内容',
-    rowActions: ['reply'],
+    rowActions: ['reply', 'delete'],
     columns: [
       { prop: 'user', label: '用户', width: 120 },
       { prop: 'type', label: '类型', type: 'tag', tagMap: { 功能异常: 'danger', 产品建议: 'primary', 内容投诉: 'warning', 其他: 'info' } },

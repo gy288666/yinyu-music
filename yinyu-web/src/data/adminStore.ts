@@ -203,7 +203,7 @@ const levels: LevelRule[] = [
   { id: 'L6', level: 'Lv6 音域传奇', expRange: '10000+', icon: '👑', reward: '年度黑胶礼盒' },
 ]
 
-const feedbacks: Feedback[] = [
+const seedFeedbacks: Feedback[] = [
   { id: 'F1', user: '苏格拉没有底', type: '功能异常', content: '播放进度条偶尔拖动后回跳。', time: '2024-05-18 09:24', status: '待处理' },
   { id: 'F2', user: '晚星', type: '产品建议', content: '希望歌单详情页能显示歌曲总数和总时长。', time: '2024-05-17 21:10', status: '待处理' },
   { id: 'F3', user: '南山南', type: '内容投诉', content: '某歌单封面与内容不符。', time: '2024-05-17 15:42', status: '已回复', reply: '已通知运营核实并更换封面，感谢反馈。' },
@@ -211,6 +211,13 @@ const feedbacks: Feedback[] = [
   { id: 'F5', user: '张*宇', type: '产品建议', content: '希望增加驾驶模式大按钮界面。', time: '2024-05-15 08:47', status: '已回复', reply: '已在产品规划中，预计下个版本上线。' },
   { id: 'F6', user: '李*', type: '其他', content: '会员到期忘记续费，能否保留歌单？', time: '2024-05-14 20:31', status: '已回复', reply: '歌单数据永久保留，请放心。' },
 ]
+
+/** 用户提交的反馈持久化在 localStorage，刷新后依然可见 */
+const feedbacks: Feedback[] = (() => {
+  let saved: Feedback[] = []
+  try { saved = JSON.parse(localStorage.getItem('yinyu_user_feedbacks') || '[]') } catch { saved = [] }
+  return [...saved, ...seedFeedbacks]
+})()
 
 const admins: AdminAccount[] = [
   { id: 'A1', account: 'admin', name: '管理员', role: '超级管理员', lastLogin: '2024-05-18 09:00', status: 'on' },
@@ -331,6 +338,11 @@ export const useAdminStore = defineStore('admin', () => {
 
   function add(key: keyof typeof state, item: Record<string, any>) {
     ;(state[key] as any[]).unshift({ id: nextId('X'), ...item })
+    // 前台用户提交的反馈写入 localStorage，跨刷新保留
+    if (key === 'feedbacks' && item.persist) {
+      const userOnes = (state.feedbacks as any[]).filter((f) => f.persist)
+      localStorage.setItem('yinyu_user_feedbacks', JSON.stringify(userOnes))
+    }
   }
   function update(key: keyof typeof state, id: string, patch: Record<string, any>) {
     const list = state[key] as any[]

@@ -21,6 +21,7 @@ const router = createRouter({
         { path: 'recent', name: 'recent', component: () => import('../views/front/LibraryView.vue'), props: { mode: 'recent' }, meta: { player: true, nav: '', side: '最近播放', title: '最近播放' } },
         { path: 'liked', name: 'liked', component: () => import('../views/front/LibraryView.vue'), props: { mode: 'liked' }, meta: { player: true, nav: '', side: '我喜欢的音乐', title: '我喜欢的音乐' } },
         { path: 'downloads', name: 'downloads', component: () => import('../views/front/LibraryView.vue'), props: { mode: 'downloads' }, meta: { player: true, nav: '', side: '下载管理', title: '下载管理' } },
+        { path: 'info/:slug', name: 'info', component: () => import('../views/front/InfoPageView.vue'), meta: { player: true, nav: '', side: '', title: '信息页' } },
       ],
     },
     // ===== 后台 =====
