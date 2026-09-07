@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #0a0c10;
+  --color-ink-900: #0c0e13;
+  --color-ink-850: #10131a;
+  --color-ink-800: #141821;
+  --color-ink-750: #181d28;
+  --color-ink-700: #1e2431;
+  --color-ink-600: #262d3d;
+  --color-gold-200: #f2dcae;
+  --color-gold-300: #e9cd94;
+  --color-gold-400: #ddb872;
+  --color-gold-500: #cfa452;
+  --color-gold-600: #b0873c;
+  --color-mist-100: #e7eaf0;
+  --color-mist-300: #b8bfcc;
+  --color-mist-400: #8b93a3;
+  --color-mist-500: #676f80;
+  --font-songti: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ink-950);
+  color: var(--color-mist-100);
+  font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 细滚动条 */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #2a3140;
+  border-radius: 3px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
